@@ -39,7 +39,7 @@ if(!fs.existsSync(DIR + '/config.json')) {
 
     }]).then(answers => {
 
-        jsonfile.writeFile('./config.json', answers, function (error) {
+        jsonfile.writeFile(DIR + '/config.json', answers, function (error) {
 
             if(error){
 
@@ -59,42 +59,49 @@ else {
 
 function start() {
 
-    const config = require('./config.json');
-    const vagrantFilePath = config.vagrantPath + '/Vagrantfile';
-
+    var config;
+    var vagrantFilePath;
     var project = null;
 
-    inquirer.prompt([{
+    promisify(fs.readFile, fs)(DIR + '/config.json', 'utf8').then((configContent) => {
 
-        type: 'input',
-        name: 'name',
-        message: 'Project name'
+        config = JSON.parse(configContent);
 
-    }, {
-        type: 'input',
-        name: 'projectPath',
-        message: 'Project path (local)',
-        default: answers => {
-            return config.projectsPath + '/' + answers.name;
-        }
+        vagrantFilePath = config.vagrantPath + '/Vagrantfile';
 
-    }, {
-        type: 'input',
-        name: 'vagrantPath',
-        message: 'Project path (Vagrant)',
-        default: answers => {
-            return '/vagrant/' + answers.name;
-        }
+        return inquirer.prompt([{
 
-    }, {
-        type: 'input',
-        name: 'domain',
-        message: 'Domain',
-        default: answers => {
-            return answers.name + '.vagrantserver.com'
-        }
+            type: 'input',
+            name: 'name',
+            message: 'Project name'
 
-    }]).then(answers => {
+        }, {
+            type: 'input',
+            name: 'projectPath',
+            message: 'Project path (local)',
+            default: answers => {
+                return config.projectsPath + '/' + answers.name;
+            }
+
+        }, {
+            type: 'input',
+            name: 'vagrantPath',
+            message: 'Project path (Vagrant)',
+            default: answers => {
+                return '/vagrant/' + answers.name;
+            }
+
+        }, {
+            type: 'input',
+            name: 'domain',
+            message: 'Domain',
+            default: answers => {
+                return answers.name + '.vagrantserver.com'
+            }
+
+        }]);
+
+    }).then(answers => {
 
         project = answers;
 
