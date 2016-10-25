@@ -1,0 +1,20 @@
+<VirtualHost *:80>
+
+    EnableSendfile off
+
+    <Directory "{{& vagrantPath }}">
+
+        Options FollowSymLinks
+        AllowOverride All
+        Require all granted
+        RewriteEngine On
+
+    </Directory>
+
+    ServerName {{& domain }}
+
+    DocumentRoot {{& vagrantPath }}
+
+    AddDefaultCharset UTF-8
+
+</VirtualHost>
