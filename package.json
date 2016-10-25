@@ -21,5 +21,8 @@
     "inquirer": "^1.2.2",
     "jsonfile": "^2.4.0",
     "mustache": "^2.2.1"
+  },
+  "bin": {
+    "vagrant-project": "index.js"
   }
 }
