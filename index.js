@@ -128,7 +128,7 @@ function start() {
         console.log('Writing Apache config');
 
         const hostConfig = Mustache.render(hostTemplate, project);
-        return promisify(fs.writeFile, fs)(`${config.configPath}/${project.name}.conf`, hostConfig, { flag: 'w+' });
+        return promisify(fs.writeFile, fs)(`${config.configPath}/${project.name}.conf`, hostConfig, { flag: 'w' });
 
     }).then(() => {
 
