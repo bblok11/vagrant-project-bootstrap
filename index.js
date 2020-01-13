@@ -112,7 +112,7 @@ function start() {
         const startKey = '#sync-start';
         const syncStart = vagrantfile.indexOf(startKey) + startKey.length;
 
-        const syncLine = `config.vm.synced_folder "${project.projectPath}", "${project.vagrantPath}"`;
+        const syncLine = `config.vm.synced_folder "${project.projectPath}", "${project.vagrantPath}", type: "nfs"`;
 
         const newVagrantfile = [vagrantfile.slice(0, syncStart), "\n"+syncLine, vagrantfile.slice(syncStart)].join('');
 
