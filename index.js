@@ -2,14 +2,17 @@
 
 const inquirer = require('inquirer');
 const fs = require('fs');
+const os = require('os');
 const jsonfile = require('jsonfile');
 const promisify = require("es6-promisify");
 const Mustache = require('mustache');
 const exec = promisify(require('child_process').exec);
 
 const DIR = __dirname;
+const USER_DIR = os.homedir();
+const CONFIG_PATH = USER_DIR + '/vagrant-bootstrap.config.json';
 
-if(!fs.existsSync(DIR + '/config.json')) {
+if(!fs.existsSync(CONFIG_PATH)) {
 
     // Create config
     inquirer.prompt([{
@@ -39,7 +42,7 @@ if(!fs.existsSync(DIR + '/config.json')) {
 
     }]).then(answers => {
 
-        jsonfile.writeFile(DIR + '/config.json', answers, function (error) {
+        jsonfile.writeFile(CONFIG_PATH, answers, function (error) {
 
             if(error){
 
@@ -63,7 +66,7 @@ function start() {
     var vagrantFilePath;
     var project = null;
 
-    promisify(fs.readFile, fs)(DIR + '/config.json', 'utf8').then((configContent) => {
+    promisify(fs.readFile, fs)(CONFIG_PATH, 'utf8').then((configContent) => {
 
         config = JSON.parse(configContent);
 
