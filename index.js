@@ -99,11 +99,16 @@ function start() {
                 return answers.name + '.vagrantserver.com'
             }
 
+        }, {
+            type: 'input',
+            name: 'php',
+            message: 'PHP version'
         }]);
 
     }).then(answers => {
 
         project = answers;
+        project.php = answers.php.replace('.', '');
 
         return promisify(fs.readFile, fs)(vagrantFilePath, 'utf8');
 

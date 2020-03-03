@@ -17,4 +17,8 @@
 
     AddDefaultCharset UTF-8
 
+    <FilesMatch \.php$>
+        SetHandler "proxy:fcgi://127.0.0.1:90{{& php }}"
+    </FilesMatch>
+
 </VirtualHost>
