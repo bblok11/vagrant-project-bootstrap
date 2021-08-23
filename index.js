@@ -104,14 +104,18 @@ function start() {
 
         }, {
             type: 'input',
-            name: 'php',
-            message: 'PHP version'
+            name: 'rootPath',
+            message: 'Root path',
+            default: '/app/public'
+        }, {
+            type: 'confirm',
+            name: 'fallbackIndex',
+            message: 'Fallback to index.html'
         }]);
 
     }).then(answers => {
 
         project = answers;
-        project.php = answers.php.replace('.', '');
 
         return promisify(fs.readFile, fs)(vagrantFilePath, 'utf8');
 

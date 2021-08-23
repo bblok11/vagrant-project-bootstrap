@@ -13,12 +13,12 @@
 
     ServerName {{& domain }}
 
-    DocumentRoot {{& vagrantPath }}
+    DocumentRoot {{& vagrantPath }}{{& rootPath }}
 
     AddDefaultCharset UTF-8
 
-    <FilesMatch \.php$>
-        SetHandler "proxy:fcgi://127.0.0.1:90{{& php }}"
-    </FilesMatch>
+    {{#fallbackIndex}}
+    FallbackResource /index.html
+    {{/fallbackIndex}}
 
 </VirtualHost>
